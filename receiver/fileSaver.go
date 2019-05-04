@@ -7,7 +7,7 @@ import (
 )
 
 func fileSaver(src io.Reader, saveFolder string, dstFileName string) error {
-
+	// TODO: check a file exists with same name
 	destFile, err := os.Create(path.Join(saveFolder, dstFileName))
 	if err != nil {
 		return err

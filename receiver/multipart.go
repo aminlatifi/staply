@@ -5,8 +5,7 @@ import (
 	"net/http"
 )
 
-// MultipartReceiver returns name of received file
-// MultipartReceiver uses
+// MultipartReceiver returns code and error
 func MultipartReceiver(r *http.Request, saveFolder string) (code int, err error) {
 	r.ParseMultipartForm(1024)
 
