@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -11,11 +12,13 @@ import (
 var tmpDir = "/home/amin/tmp"
 
 func httpHandler(w http.ResponseWriter, r *http.Request) {
+
 	contentType := strings.Split(r.Header.Get("Content-Type"), ";")[0]
 	method := r.Method
 
-	if method == "POST" {
-		var f func(*http.Request, string) (int, error)
+	var f func(*http.Request, string) (int, error)
+
+	if method == http.MethodPost {
 
 		if strings.HasPrefix(contentType, "multipart/form-data") {
 			f = receiver.MultipartReceiver
@@ -26,17 +29,20 @@ func httpHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		code, err := f(r, tmpDir)
-		if err != nil {
-			http.Error(w, err.Error(), code)
-		}
-
-		w.WriteHeader(http.StatusOK)
-	} else if method == "GET" {
-		w.WriteHeader(http.StatusOK)
+	} else if method == http.MethodGet {
+		f = receiver.GetReceiver
+	} else {
+		fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
+		return
 	}
 
-	// fmt.Fprintf(w, "I love %s!", r.URL.Path[1:])
+	code, err := f(r, tmpDir)
+	if err != nil {
+		http.Error(w, err.Error(), code)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 }
 
 func main() {

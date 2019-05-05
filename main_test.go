@@ -15,7 +15,7 @@ import (
 var testFileSize = 4 * 1024
 
 func TestGet(t *testing.T) {
-	req, err := http.NewRequest("GET", "/", nil)
+	req, err := http.NewRequest(http.MethodGet, "/", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -25,8 +25,8 @@ func TestGet(t *testing.T) {
 
 	handler.ServeHTTP(rr, req)
 
-	if rr.Code != http.StatusOK {
-		t.Error("Get request does not return 200")
+	if rr.Code == http.StatusOK {
+		t.Error("Should not accept request without parameter")
 	}
 
 	return

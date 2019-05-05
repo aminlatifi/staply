@@ -34,7 +34,7 @@ func TestJSON(t *testing.T) {
 	body.WriteByte('}')
 
 	// Create POST request
-	req, err := http.NewRequest("POST", "/", body)
+	req, err := http.NewRequest(http.MethodPost, "/", body)
 	req.Header.Add("Content-Type", "application/json")
 	if err != nil {
 		t.Fatal(err)

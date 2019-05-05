@@ -35,7 +35,7 @@ func TestMultipart(t *testing.T) {
 	err = writer.Close()
 
 	// Create POST request
-	req, err := http.NewRequest("POST", "/", body)
+	req, err := http.NewRequest(http.MethodPost, "/", body)
 	req.Header.Add("Content-Type", writer.FormDataContentType())
 	if err != nil {
 		t.Fatal(err)
@@ -47,7 +47,7 @@ func TestMultipart(t *testing.T) {
 	handler.ServeHTTP(rr, req)
 
 	if rr.Code != http.StatusOK {
-		t.Error("Get request does not return 200")
+		t.Error("Request does not return 200")
 	}
 
 	checkFilesWithOrigs(t, numberOfFiles, origFilesContent)
