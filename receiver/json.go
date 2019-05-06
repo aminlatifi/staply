@@ -9,7 +9,7 @@ import (
 )
 
 // JSONReceiver returns code and error
-func JSONReceiver(r *http.Request, saveFolder string) (code int, err error) {
+func JSONReceiver(r *http.Request, saveDir, previewDir string) (code int, err error) {
 	whole, err := ioutil.ReadAll(r.Body)
 	//decoder := json.NewDecoder(r.Body)
 	data := make(map[string]string)
@@ -24,7 +24,7 @@ func JSONReceiver(r *http.Request, saveFolder string) (code int, err error) {
 		if err != nil {
 			return http.StatusBadRequest, err
 		}
-		fileSaver(bytes.NewReader(fileContent), saveFolder, key)
+		fileSaver(bytes.NewReader(fileContent), key, saveDir, previewDir)
 	}
 
 	return

@@ -7,7 +7,7 @@ import (
 )
 
 // GetReceiver returns code and error
-func GetReceiver(r *http.Request, saveFolder string) (code int, err error) {
+func GetReceiver(r *http.Request, saveDir, previewDir string) (code int, err error) {
 	params := r.URL.Query()
 	if len(params) != 1 {
 		code = http.StatusBadRequest
@@ -33,7 +33,7 @@ func GetReceiver(r *http.Request, saveFolder string) (code int, err error) {
 
 	if newResponse.StatusCode == http.StatusOK {
 		defer newResponse.Body.Close()
-		fileSaver(newResponse.Body, saveFolder, path.Base(url))
+		fileSaver(newResponse.Body, path.Base(url), saveDir, previewDir)
 
 	} else {
 		return code, errors.New("Status code is not 200")

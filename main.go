@@ -6,17 +6,18 @@ import (
 	"net/http"
 	"strings"
 
-	receiver "./receiver"
+	receiver "staply/receiver"
 )
 
-var tmpDir = "/home/amin/tmp"
+var saveDir = "/downloads"
+var previewDir = "/downloads/preview"
 
 func httpHandler(w http.ResponseWriter, r *http.Request) {
 
 	contentType := strings.Split(r.Header.Get("Content-Type"), ";")[0]
 	method := r.Method
 
-	var f func(*http.Request, string) (int, error)
+	var f func(*http.Request, string, string) (int, error)
 
 	if method == http.MethodPost {
 
@@ -36,7 +37,7 @@ func httpHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	code, err := f(r, tmpDir)
+	code, err := f(r, saveDir, previewDir)
 	if err != nil {
 		http.Error(w, err.Error(), code)
 		return

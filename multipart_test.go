@@ -13,6 +13,8 @@ func TestMultipart(t *testing.T) {
 
 	numberOfFiles := 4
 
+	previewDir = ""
+
 	origFilesContent, err := createRandomOrigFiles(t, numberOfFiles)
 	if err != nil {
 		return

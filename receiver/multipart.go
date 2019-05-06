@@ -6,7 +6,7 @@ import (
 )
 
 // MultipartReceiver returns code and error
-func MultipartReceiver(r *http.Request, saveFolder string) (code int, err error) {
+func MultipartReceiver(r *http.Request, saveDir, previewDir string) (code int, err error) {
 	r.ParseMultipartForm(1024)
 
 	if len(r.MultipartForm.File) == 0 {
@@ -24,7 +24,7 @@ func MultipartReceiver(r *http.Request, saveFolder string) (code int, err error)
 		}
 		defer f.Close()
 
-		err = fileSaver(f, saveFolder, fh.Filename)
+		err = fileSaver(f, fh.Filename, saveDir, previewDir)
 		if err != nil {
 			return http.StatusInternalServerError, err
 		}

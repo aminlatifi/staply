@@ -17,6 +17,6 @@
             "request": "launch",
             "mode": "test",
             "program": "main.go"
-        },
+        }
     ]
 }

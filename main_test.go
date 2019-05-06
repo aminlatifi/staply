@@ -36,14 +36,14 @@ func TestGet(t *testing.T) {
 // Returns temporary directory path and error
 func createRandomOrigFiles(t *testing.T, numberOfFiles int) (origFilesContent [][]byte, err error) {
 
-	tmpDir, err = ioutil.TempDir("/tmp", "staply_")
+	saveDir, err = ioutil.TempDir("/tmp", "staply_")
 
 	if err != nil {
 		t.Error("Failed to create temporary directory")
 		return
 	}
 
-	if nil != os.Mkdir(path.Join(tmpDir, "orig"), os.ModePerm) {
+	if nil != os.Mkdir(path.Join(saveDir, "orig"), os.ModePerm) {
 		t.Error("Failed to create orig directory")
 		return
 	}
@@ -54,7 +54,7 @@ func createRandomOrigFiles(t *testing.T, numberOfFiles int) (origFilesContent []
 	for i := 0; i < numberOfFiles; i++ {
 		rand.Read(token)
 		origFilesContent[i] = token
-		err = ioutil.WriteFile(path.Join(tmpDir, "orig", strconv.Itoa(i)), token, 0644)
+		err = ioutil.WriteFile(path.Join(saveDir, "orig", strconv.Itoa(i)), token, 0644)
 		if err != nil {
 			t.Error("Failed to create orig file")
 			return
@@ -67,7 +67,7 @@ func createRandomOrigFiles(t *testing.T, numberOfFiles int) (origFilesContent []
 func checkFilesWithOrigs(t *testing.T, numberOfFiles int, origFilesContent [][]byte) {
 	for i := 0; i < numberOfFiles; i++ {
 		func() {
-			file, err := os.Open(path.Join(tmpDir, strconv.Itoa(i)))
+			file, err := os.Open(path.Join(saveDir, strconv.Itoa(i)))
 			if err != nil {
 				t.Errorf("Error opening file %d", i)
 				return
