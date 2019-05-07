@@ -1,0 +1,8 @@
+version: '2'
+services: 
+  staply:
+    build: .
+    volumes: 
+      - ./downloads:/downloads
+    ports: 
+      - 8080:8080
